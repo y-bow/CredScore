@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Business Dashboard | CredScore</title>
+    <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="css/style.css">
     <style>
         .dashboard-header {
@@ -92,7 +93,7 @@
     <nav>
         <div class="container">
             <a href="index.html" class="logo">
-                <img src="assets/images/logo.png" alt="CredScore Logo">
+                <img src="logo.png" alt="CredScore Logo">
                 CredScore
             </a>
             <div class="nav-links">
@@ -135,11 +136,12 @@
 
         <section class="active-task-management reveal">
             <div class="section-title" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
-                <h2>Active Task</h2>
-                <button class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">+ Post New Task</button>
+                <h2>Active Tasks</h2>
+                <button id="postTaskBtn" class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">+ Post New Task</button>
             </div>
             
-            <div class="glass-card task-info-card">
+            <div id="activeTasksContainer">
+                <div class="glass-card task-info-card">
                 <div>
                     <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Design a menu banner</h3>
                     <p style="color: var(--text-muted);">Budget: ₹400 • Deadline: 3 days left</p>
@@ -168,7 +170,7 @@
                         <strong>4.6</strong>
                     </div>
                     <a href="student-dashboard.html" class="btn btn-outline" style="width: 100%; font-size: 0.85rem;">View Profile</a>
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
+                    <button class="btn btn-primary hire-student-btn" data-student-name="B.Vaibhav" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
                 </div>
 
                 <!-- Candidate 2 -->
@@ -188,7 +190,7 @@
                         <strong>4.3</strong>
                     </div>
                     <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem;">View Profile</button>
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
+                    <button class="btn btn-primary hire-student-btn" data-student-name="Navyathrega" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
                 </div>
 
                 <!-- Candidate 3 -->
@@ -208,7 +210,7 @@
                         <strong>4.8</strong>
                     </div>
                     <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem;">View Profile</button>
-                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
+                    <button class="btn btn-primary hire-student-btn" data-student-name="Lingaesh S G" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
                 </div>
             </div>
         </section>
@@ -232,6 +234,61 @@
     <footer style="margin-top: 6rem; padding: 2rem 0; border-top: 1px solid var(--glass-border); text-align: center;">
         <p>&copy; 2026 CredScore. All rights reserved.</p>
     </footer>
+
+    <!-- Post New Task Modal -->
+    <div id="postTaskModal" class="modal-overlay">
+        <div class="glass-card modal-container">
+            <span class="modal-close" onclick="closeModal('postTaskModal')">&times;</span>
+            <h2 style="margin-bottom: 2rem;">Post New Task</h2>
+            <form id="postTaskForm">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" class="form-control" placeholder="e.g. Design a menu banner" required>
+                </div>
+                <div class="form-group">
+                    <label for="taskDesc">Description</label>
+                    <textarea id="taskDesc" class="form-control" placeholder="Describe the task requirements..." required></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="taskBudget">Budget (₹)</label>
+                        <input type="number" id="taskBudget" class="form-control" placeholder="400" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDeadline">Deadline</label>
+                        <input type="date" id="taskDeadline" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="taskCategory">Category</label>
+                    <select id="taskCategory" class="form-control" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="Design">Design</option>
+                        <option value="Writing">Writing</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Video">Video</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Submit Task</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hire Student Confirmation Modal -->
+    <div id="hireModal" class="modal-overlay">
+        <div class="glass-card modal-container" style="max-width: 450px; text-align: center;">
+            <h2 style="margin-bottom: 1rem;">Confirm Hire</h2>
+            <p id="hireModalText" style="margin-bottom: 2rem; color: var(--text-muted);"></p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <button class="btn btn-outline" onclick="closeModal('hireModal')">Cancel</button>
+                <button id="confirmHireBtn" class="btn btn-primary">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast UI -->
+    <div id="toastContainer" class="toast-container"></div>
 
     <script src="js/main.js"></script>
 </body>
