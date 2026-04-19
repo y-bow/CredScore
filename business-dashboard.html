@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Dashboard | CredScore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .dashboard-header {
+            padding: 10rem 0 3rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .active-task-management {
+            margin-bottom: 4rem;
+        }
+
+        .task-info-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--accent);
+        }
+
+        .applicants-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .student-card {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--glass-bg);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            border: 2px solid var(--accent);
+        }
+
+        .student-metric {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .student-metric strong {
+            color: white;
+        }
+
+        @media (max-width: 992px) {
+            .applicants-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 640px) {
+            .applicants-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="CredScore Logo">
+                CredScore
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="explore.html">Explore Tasks</a>
+                <a href="pricing.html">Pricing</a>
+                <div style="display: flex; align-items: center; gap: 1rem; margin-left: 1rem;">
+                    <span style="font-size: 0.9rem; font-weight: 600;">Brew & Bites Café 👋</span>
+                </div>
+            </div>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="dashboard-header reveal">
+            <h1>Business Dashboard</h1>
+            <p style="color: var(--text-muted);">Manage your tasks and verified student hires.</p>
+        </header>
+
+        <section class="stats-row reveal">
+            <div class="glass-card stat-card">
+                <h3>Tasks Posted</h3>
+                <div class="value">4</div>
+            </div>
+            <div class="glass-card stat-card">
+                <h3>Tasks Completed</h3>
+                <div class="value">3</div>
+            </div>
+            <div class="glass-card stat-card">
+                <h3>Avg. Rating Given</h3>
+                <div class="value">4.7</div>
+            </div>
+        </section>
+
+        <section class="active-task-management reveal">
+            <div class="section-title" style="margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <h2>Active Task</h2>
+                <button class="btn btn-primary" style="padding: 0.6rem 1.2rem; font-size: 0.9rem;">+ Post New Task</button>
+            </div>
+            
+            <div class="glass-card task-info-card">
+                <div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Design a menu banner</h3>
+                    <p style="color: var(--text-muted);">Budget: ₹400 • Deadline: 3 days left</p>
+                </div>
+                <div style="text-align: right;">
+                    <span class="badge" style="font-size: 1rem; padding: 0.5rem 1.5rem;">5 Applicants Waiting</span>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: 1.5rem;">Review Applicants</h3>
+            <div class="applicants-grid">
+                <!-- Candidate 1 -->
+                <div class="glass-card student-card">
+                    <div class="student-avatar">BV</div>
+                    <h4>B.Vaibhav</h4>
+                    <div class="student-metric">
+                        <span>CredScore</span>
+                        <strong>87</strong>
+                    </div>
+                    <div class="student-metric">
+                        <span>Tasks Done</span>
+                        <strong>12</strong>
+                    </div>
+                    <div class="student-metric">
+                        <span>Avg. Rating</span>
+                        <strong>4.6</strong>
+                    </div>
+                    <a href="student-dashboard.html" class="btn btn-outline" style="width: 100%; font-size: 0.85rem;">View Profile</a>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
+                </div>
+
+                <!-- Candidate 2 -->
+                <div class="glass-card student-card">
+                    <div class="student-avatar" style="border-color: #F59E0B;">N</div>
+                    <h4>Navyathrega</h4>
+                    <div class="student-metric">
+                        <span>CredScore</span>
+                        <strong>74</strong>
+                    </div>
+                    <div class="student-metric">
+                        <span>Tasks Done</span>
+                        <strong>8</strong>
+                    </div>
+                    <div class="student-metric">
+                        <span>Avg. Rating</span>
+                        <strong>4.3</strong>
+                    </div>
+                    <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem;">View Profile</button>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
+                </div>
+
+                <!-- Candidate 3 -->
+                <div class="glass-card student-card">
+                    <div class="student-avatar" style="border-color: #10B981;">LS</div>
+                    <h4>Lingaesh S G</h4>
+                    <div class="student-metric">
+                        <span>CredScore</span>
+                        <strong>91</strong>
+                    </div>
+                    <div class="student-metric">
+                        <span>Tasks Done</span>
+                        <strong>18</strong>
+                    </div>
+                    <div class="student-metric">
+                        <span>Avg. Rating</span>
+                        <strong>4.8</strong>
+                    </div>
+                    <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem;">View Profile</button>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 0.5rem; font-size: 0.85rem;">Hire Student</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal" style="margin-top: 4rem;">
+            <h2>Past Hires</h2>
+            <div class="task-list" style="margin-top: 1.5rem;">
+                <div class="glass-card dashboard-task" style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; margin-bottom: 1rem;">
+                    <div>
+                        <h4 style="margin-bottom: 0.25rem;">Logo animation for shop launch</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Hired: Rahul M. • ₹600</p>
+                    </div>
+                    <div style="text-align: right; color: #F59E0B;">
+                        ⭐ 5.0 (Great work!)
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 6rem; padding: 2rem 0; border-top: 1px solid var(--glass-border); text-align: center;">
+        <p>&copy; 2026 CredScore. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

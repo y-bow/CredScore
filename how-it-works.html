@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works | CredScore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header {
+            padding: 10rem 0 4rem;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .tab-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .how-section {
+            display: none;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 8rem;
+        }
+
+        .how-section.active {
+            display: grid;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 0;
+            width: 1rem;
+            height: 1rem;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 4px solid var(--primary-bg);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .timeline-item h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent);
+        }
+
+        .trust-box {
+            text-align: center;
+            padding: 4rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(10, 15, 44, 0.5) 100%);
+            border-radius: 2rem;
+            border: 1px solid var(--accent);
+            margin: 6rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .how-section {
+                grid-template-columns: 1fr;
+            }
+            .how-section .image-side {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="CredScore Logo">
+                CredScore
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="explore.html">Explore Tasks</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="student-dashboard.html" class="btn btn-outline" style="padding: 0.5rem 1.2rem;">Login</a>
+            </div>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header reveal">
+            <h1>Two Sides. One Verified Truth.</h1>
+            <p>Whether you're building a career or a business, CredScore provides the infrastructure of trust.</p>
+        </header>
+
+        <section class="reveal">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('students')">For Students</button>
+                <button class="tab-btn" onclick="showTab('businesses')">For Businesses</button>
+            </div>
+
+            <div id="students-tab" class="how-section active">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>Take Tasks</h3>
+                        <p>Browse the Explore page and apply for tasks that match your skills. Small businesses post everything from social media posts to website fixes.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Complete Work</h3>
+                        <p>Do the work within the platform. Our tools track your activity and provide a secure staging environment for your projects.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Get Rated</h3>
+                        <p>Once you submit, the business reviews your work. They provide a rating based on quality, communication, and punctuality.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Profile Builds Automatically</h3>
+                        <p>Your "CredScore" and verified portfolio update immediately. No more self-reported "expert" claims—you have pure proof.</p>
+                    </div>
+                </div>
+                <div class="image-side">
+                    <div class="glass-card">
+                        <img src="assets/images/hero.png" alt="Student Dashboard Preview" style="border-radius: 1rem;">
+                    </div>
+                </div>
+            </div>
+
+            <div id="businesses-tab" class="how-section">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>Post a Task</h3>
+                        <p>Need a logo, a blog post, or a bug fixed? Post a task with a clear description, deadline, and price.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Student Applies</h3>
+                        <p>Review applicants based on their verified CredScore and past work. No more guessing games with resumes.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Work Gets Done</h3>
+                        <p>The student completes the task. You only pay when you approve the final delivery.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>Rate the Student</h3>
+                        <p>Provide honest feedback. Your rating directly impacts their CredScore, keeping the marketplace high-quality.</p>
+                    </div>
+                </div>
+                <div class="image-side">
+                    <div class="glass-card">
+                        <img src="assets/images/hero.png" alt="Business Dashboard Preview" style="border-radius: 1rem; filter: hue-rotate(45deg);">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="trust-box reveal">
+            <h2>No fake skills. No self-reporting. <u>Pure proof.</u></h2>
+            <p style="margin-top: 1rem; color: var(--text-muted);">CredScore is the only platform where your merit is calculated by what you've actually delivered, not what you've written on your resume.</p>
+            <div style="margin-top: 2rem;">
+                <a href="explore.html" class="btn btn-primary">Try it today</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/logo.png" alt="CredScore Logo">
+                        CredScore
+                    </a>
+                    <p>Your Work. Verified. The future of student employment and skill validation.</p>
+                </div>
+                <div class="footer-bottom" style="grid-column: 1 / -1; margin-top: 2rem;">
+                    <p>&copy; 2026 CredScore. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        function showTab(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.how-section').forEach(sec => sec.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(type + '-tab').classList.add('active');
+        }
+    </script>
+</body>
+</html>

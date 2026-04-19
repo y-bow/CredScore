@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | CredScore</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .page-header {
+            padding: 10rem 0 4rem;
+            text-align: center;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 6rem;
+        }
+
+        .pricing-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+            z-index: 10;
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 1rem;
+            right: -2rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 3rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 1.5rem 0;
+            color: var(--accent);
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .features-list {
+            margin-bottom: 2.5rem;
+            flex-grow: 1;
+        }
+
+        .features-list li {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .features-list li::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: 900;
+        }
+
+        .institution-note {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1rem;
+            border: 1px dashed var(--glass-border);
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 992px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="assets/images/logo.png" alt="CredScore Logo">
+                CredScore
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="how-it-works.html">How It Works</a>
+                <a href="explore.html">Explore Tasks</a>
+                <a href="pricing.html">Pricing</a>
+                <a href="student-dashboard.html" class="btn btn-outline" style="padding: 0.5rem 1.2rem;">Login</a>
+            </div>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <header class="page-header reveal">
+            <h1>Transparent Pricing.</h1>
+            <p>We win when students and businesses win. No hidden fees.</p>
+        </header>
+
+        <section class="pricing-grid reveal">
+            <!-- Students -->
+            <div class="glass-card pricing-card">
+                <div class="card-header">
+                    <h2>For Students</h2>
+                    <p>Build your verified profile</p>
+                    <div class="price">Free</div>
+                </div>
+                <ul class="features-list">
+                    <li>Browse unlimited tasks</li>
+                    <li>Verified CredScore Profile</li>
+                    <li>Performance Data Tracking</li>
+                    <li>Digital Portfolio Hosting</li>
+                    <li>Direct access to recruiters</li>
+                </ul>
+                <a href="student-dashboard.html" class="btn btn-outline" style="text-align: center;">Join as Student</a>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1rem; text-align: center;">*Small commission per completed paid task apply.</p>
+            </div>
+
+            <!-- Businesses -->
+            <div class="glass-card pricing-card featured">
+                <div class="card-header">
+                    <h2>For Businesses</h2>
+                    <p>Hire verified talent</p>
+                    <div class="price">Free <span>to post</span></div>
+                </div>
+                <ul class="features-list">
+                    <li>Unlimited Task Posting</li>
+                    <li>Review verified CredScores</li>
+                    <li>In-platform task management</li>
+                    <li>Secure payment escrow</li>
+                    <li>Priority Student Matching</li>
+                </ul>
+                <a href="business-dashboard.html" class="btn btn-primary" style="text-align: center;">Start Hiring</a>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1rem; text-align: center;">Pay only when task is completed successfully.</p>
+            </div>
+
+            <!-- Recruiters -->
+            <div class="glass-card pricing-card">
+                <div class="card-header">
+                    <h2>For Recruiters</h2>
+                    <p>Source vetted candidates</p>
+                    <div class="price">Contact</div>
+                </div>
+                <ul class="features-list">
+                    <li>Premium Talent Search</li>
+                    <li>Full performance analytics</li>
+                    <li>Automated shortlist generation</li>
+                    <li>Campus-wide verified database</li>
+                    <li>Direct hire pipeline</li>
+                </ul>
+                <a href="#" class="btn btn-outline" style="text-align: center;">Contact Sales</a>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 1rem; text-align: center;">Bulk access for recruitment agencies.</p>
+            </div>
+        </section>
+
+        <div class="institution-note reveal">
+            <p><strong>Note for Colleges:</strong> We start with colleges for free. No cost to institutions to integrate CredScore for their students.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <img src="assets/images/logo.png" alt="CredScore Logo">
+                        CredScore
+                    </a>
+                </div>
+                <div class="footer-bottom" style="margin-top: 2rem;">
+                    <p>&copy; 2026 CredScore. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
