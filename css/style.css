@@ -419,3 +419,135 @@ select.form-control {
     color: white !important;
     cursor: default !important;
 }
+/* Pricing Specific Styles */
+.calculation-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+}
+
+.calc-step {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.calc-arrow {
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.calc-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.25rem;
+}
+
+.calc-value {
+    font-family: 'Inter', monospace;
+    color: var(--accent);
+}
+
+.pricing-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.recruiter-tiers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.tier-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+.tier-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+}
+
+.tier-popular {
+    border-color: var(--accent);
+    position: relative;
+    overflow: hidden;
+}
+
+.tier-popular::before {
+    content: "PRO";
+    position: absolute;
+    top: 1rem;
+    right: -2rem;
+    background: var(--accent);
+    color: white;
+    padding: 0.25rem 3rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    transform: rotate(45deg);
+}
+
+.tier-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.tier-price {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+}
+
+.tier-price span {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.college-highlight {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 2rem;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 6rem;
+}
+
+.college-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.college-feature {
+    padding: 1.5rem;
+}
+
+.college-feature h4 {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+}
+
+@media (max-width: 992px) {
+    .recruiter-tiers, .college-grid {
+        grid-template-columns: 1fr;
+    }
+}
