@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero reveal">
+    <div class="hero-content">
+        <h1>Your Work.<br>Verified.</h1>
+        <p>CredScore turns every task you complete into digital proof recruiters can trust. Build your career with real paid work while you study.</p>
+        <div class="hero-btns">
+            <a href="{{ url_for('explore') }}" class="btn btn-primary">I'm a Student</a>
+            <a href="{{ url_for('auth') }}" class="btn btn-outline">I'm a Business</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <div class="hero-mockup">
+            <div class="mockup-card">
+                <div class="mockup-header">
+                    <div class="mockup-profile">
+                        <div class="mockup-avatar">BV</div>
+                        <div>
+                            <h4>B.Vaibhav</h4>
+                            <div class="mockup-badge">Verified Profile ✓</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mockup-score">
+                    <div class="score-circle">
+                        <div style="font-size: 2rem; font-weight: 800;">87</div>
+                        <div style="font-size: 0.7rem; color: var(--muted);">CredScore</div>
+                    </div>
+                </div>
+                <div class="mockup-stats">
+                    <div class="mock-stat">
+                        <span>12</span>
+                        <label>Tasks Done</label>
+                    </div>
+                    <div class="mock-stat">
+                        <span>4.6</span>
+                        <label>Avg Rating</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-bar reveal">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <h2>43M+</h2>
+            <p>Students in India</p>
+        </div>
+        <div class="stat-item">
+            <h2>2,500+</h2>
+            <p>Verified Profiles</p>
+        </div>
+        <div class="stat-item">
+            <h2>85%</h2>
+            <p>Recruiter Trust Gap</p>
+        </div>
+    </div>
+</section>
+
+<section class="reveal">
+    <div class="section-header">
+        <h2>The Proof System</h2>
+        <p>CredScore is changing how students get hired.</p>
+    </div>
+    <div class="step-grid">
+        <div class="glass-card step-card">
+            <div class="step-num">1</div>
+            <h3>Take a Task</h3>
+            <p>Apply for real paid tasks from small businesses in your domain.</p>
+        </div>
+        <div class="glass-card step-card">
+            <div class="step-num">2</div>
+            <h3>Auto-Track</h3>
+            <p>Our platform tracks your progress, deadlines, and quality automatically.</p>
+        </div>
+        <div class="glass-card step-card">
+            <div class="step-num">3</div>
+            <h3>Build Profile</h3>
+            <p>Every completion updates your public, verified CredScore profile.</p>
+        </div>
+    </div>
+</section>
+
+<section class="reveal">
+    <div class="section-header">
+        <h2>Students Speak</h2>
+        <p>Why CGPA isn't enough anymore.</p>
+    </div>
+    <div class="step-grid">
+        <div class="glass-card step-card">
+            <blockquote class="testimonial-quote">"I built a full website for a NGO for free, but recruiters had no way to verify I actually did it. CredScore fixes that."</blockquote>
+            <div class="testimonial-author">
+                <div class="author-info">
+                    <h4 style="font-size: 0.9rem;">Prima</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Computer Science Student</p>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card step-card">
+            <blockquote class="testimonial-quote">"My CGPA doesn't show what I can actually do. My CredScore of 88 shows I can deliver quality work on time."</blockquote>
+            <div class="testimonial-author">
+                <div class="author-info">
+                    <h4 style="font-size: 0.9rem;">Anjana</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Design Major</p>
+                </div>
+            </div>
+        </div>
+        <div class="glass-card step-card">
+            <blockquote class="testimonial-quote">"I wanted to earn during college but didn't know where to find tasks. Now I get paid and build my resume simultaneously."</blockquote>
+            <div class="testimonial-author">
+                <div class="author-info">
+                    <h4 style="font-size: 0.9rem;">Rathinakumar</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Marketing Student</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

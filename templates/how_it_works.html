@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block title %}How It Works | CredScore{% endblock %}
+
+{% block head %}
+<style>
+    .page-header {
+        padding: 10rem 0 4rem;
+        text-align: center;
+    }
+
+    .workflow-section {
+        margin-bottom: 6rem;
+    }
+
+    .workflow-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4rem;
+        align-items: center;
+    }
+
+    .workflow-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: var(--accent);
+    }
+
+    .workflow-content p {
+        font-size: 1.1rem;
+        color: var(--muted);
+        margin-bottom: 2rem;
+    }
+
+    .step-list {
+        list-style: none;
+    }
+
+    .step-list li {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--accent);
+        border: 1px solid rgba(59, 130, 246, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .step-text h4 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .step-text p {
+        font-size: 0.95rem;
+        color: var(--muted);
+        margin-bottom: 0;
+    }
+
+    .system-diagram {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--glass-border);
+        border-radius: 2rem;
+        padding: 4rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .system-diagram::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        background: var(--accent);
+        filter: blur(150px);
+        opacity: 0.1;
+        z-index: 0;
+    }
+
+    .diagram-nodes {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .node {
+        background: var(--card);
+        border: 1px solid var(--glass-border);
+        padding: 1.5rem;
+        border-radius: 1rem;
+        width: 200px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .node-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .arrow {
+        flex-grow: 1;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        position: relative;
+    }
+
+    .arrow::after {
+        content: "→";
+        position: absolute;
+        right: 20%;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--accent);
+        font-size: 1.5rem;
+    }
+
+    .anti-gaming {
+        margin-top: 8rem;
+        padding: 4rem 0;
+        border-top: 1px solid var(--glass-border);
+    }
+
+    .shield-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .shield-card {
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .shield-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: #10B981;
+    }
+
+    @media (max-width: 992px) {
+        .workflow-grid { grid-template-columns: 1fr; }
+        .workflow-grid:nth-child(even) .workflow-image { grid-row: 2; }
+        .diagram-nodes { flex-direction: column; gap: 3rem; }
+        .arrow { width: 2px; height: 50px; background: linear-gradient(180deg, transparent, var(--accent), transparent); }
+        .arrow::after { content: "↓"; right: auto; top: auto; bottom: 10%; left: 50%; transform: translateX(-50%); }
+        .shield-grid { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="page-header reveal">
+    <h1>The Mechanics of Trust.</h1>
+    <p style="color: var(--muted); max-width: 600px; margin: 0 auto;">How we turn raw tasks into verified data that recruiters can rely on.</p>
+</header>
+
+<section class="workflow-section reveal">
+    <div class="workflow-grid">
+        <div class="workflow-content">
+            <h2>For Students</h2>
+            <p>Build your portfolio with actual work, not just academic projects.</p>
+            <ul class="step-list">
+                <li>
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <h4>Claim a Task</h4>
+                        <p>Browse open tasks from real small businesses. Apply based on your skills and domain.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        <h4>Execute & Submit</h4>
+                        <p>Work directly with the business. Our platform timestamps your submissions to track punctuality.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        <h4>Get Paid & Rated</h4>
+                        <p>Receive your payment minus a 10% platform fee. The business rates your work, updating your CredScore.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="workflow-image system-diagram">
+            <div class="diagram-nodes">
+                <div class="node">
+                    <div class="node-icon">👤</div>
+                    <h4 style="margin-bottom: 0.5rem;">Student</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Completes task</p>
+                </div>
+                <div class="arrow"></div>
+                <div class="node">
+                    <div class="node-icon">⭐</div>
+                    <h4 style="margin-bottom: 0.5rem;">CredScore Engine</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Verifies & calculates</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="workflow-section reveal" style="margin-top: 8rem;">
+    <div class="workflow-grid">
+        <div class="workflow-image system-diagram">
+            <div class="diagram-nodes">
+                <div class="node">
+                    <div class="node-icon">🏢</div>
+                    <h4 style="margin-bottom: 0.5rem;">Business</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Posts task</p>
+                </div>
+                <div class="arrow"></div>
+                <div class="node">
+                    <div class="node-icon">✅</div>
+                    <h4 style="margin-bottom: 0.5rem;">Platform</h4>
+                    <p style="font-size: 0.8rem; color: var(--muted);">Matches & secures</p>
+                </div>
+            </div>
+        </div>
+        <div class="workflow-content">
+            <h2>For Businesses</h2>
+            <p>Get your tasks done affordably while helping students build their careers.</p>
+            <ul class="step-list">
+                <li>
+                    <div class="step-number">1</div>
+                    <div class="step-text">
+                        <h4>Post Requirements</h4>
+                        <p>Outline your task, budget, and deadline. It's completely free to post.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-number">2</div>
+                    <div class="step-text">
+                        <h4>Select Talent</h4>
+                        <p>Review applicants based on their verified CredScore and past task completions.</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="step-number">3</div>
+                    <div class="step-text">
+                        <h4>Approve & Rate</h4>
+                        <p>Review the submitted work. If satisfactory, approve the payment and provide an honest rating.</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="anti-gaming reveal">
+    <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">The Anti-Gaming Layer</h2>
+        <p style="color: var(--muted);">Why recruiters trust a CredScore more than a resume. We've built robust systems to prevent fake reviews and manipulated scores.</p>
+    </div>
+
+    <div class="shield-grid">
+        <div class="glass-card shield-card">
+            <div class="shield-icon">🛡️</div>
+            <h3>Blind Mutual Ratings</h3>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">Neither the student nor the business can see the other's rating until both are submitted, preventing retaliatory scores.</p>
+        </div>
+        <div class="glass-card shield-card">
+            <div class="shield-icon">⏱️</div>
+            <h3>Timestamp Verification</h3>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">Our system tracks the exact time of assignment and submission. You can't fake punctuality or 'speed-run' complex tasks.</p>
+        </div>
+        <div class="glass-card shield-card">
+            <div class="shield-icon">🤖</div>
+            <h3>Anomaly Detection</h3>
+            <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">Algorithms flag suspicious patterns like the same business repeatedly rating the same student 5 stars within days.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

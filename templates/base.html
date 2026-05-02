@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}CredScore | Your Work. Verified.{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="theme-dark">
+
+    <nav>
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="CredScore Logo">
+                CredScore
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="{{ 'active' if request.endpoint == 'index' else '' }}">Home</a>
+                <a href="{{ url_for('how_it_works') }}" class="{{ 'active' if request.endpoint == 'how_it_works' else '' }}">How It Works</a>
+                <a href="{{ url_for('explore') }}" class="{{ 'active' if request.endpoint == 'explore' else '' }}">Explore Tasks</a>
+                <a href="{{ url_for('pricing') }}" class="{{ 'active' if request.endpoint == 'pricing' else '' }}">Pricing</a>
+                
+                {% if not current_user.is_authenticated or current_user.role != 'Recruiter' %}
+                <a href="{{ url_for('recruiter_dashboard') if current_user.is_authenticated and current_user.role == 'Recruiter' else url_for('auth') }}" class="{{ 'active' if request.endpoint == 'recruiter_dashboard' else '' }}">For Recruiters</a>
+                {% endif %}
+
+                {% if current_user.is_authenticated %}
+                    {% if current_user.role == 'Student' %}
+                        <a href="{{ url_for('student_dashboard') }}" class="{{ 'active' if request.endpoint == 'student_dashboard' else '' }}">Dashboard</a>
+                    {% elif current_user.role == 'Business' %}
+                        <a href="{{ url_for('business_dashboard') }}" class="{{ 'active' if request.endpoint == 'business_dashboard' else '' }}">Dashboard</a>
+                    {% elif current_user.role == 'Recruiter' %}
+                        <a href="{{ url_for('recruiter_dashboard') }}" class="{{ 'active' if request.endpoint == 'recruiter_dashboard' else '' }}">Dashboard</a>
+                    {% elif current_user.role == 'Admin' %}
+                        <a href="{{ url_for('admin_flags') }}" class="{{ 'active' if request.endpoint == 'admin_flags' else '' }}">Admin Flags</a>
+                    {% endif %}
+                    
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-left: 1rem;">
+                        <span style="font-size: 0.9rem; font-weight: 600;">{{ current_user.name }} 👋</span>
+                        <a href="{{ url_for('logout') }}" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.8rem;">Logout</a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('auth') }}" class="btn btn-outline" style="padding: 0.5rem 1.2rem;">Login / Sign Up</a>
+                {% endif %}
+                
+                <button id="themeToggle" style="background:none; border:none; color:inherit; cursor:pointer; font-size: 1.2rem; margin-left: 1rem;">
+                    🌙
+                </button>
+            </div>
+            <div class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div id="toastContainer" class="toast-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="toast" style="{% if category == 'error' %}background: rgba(239, 68, 68, 0.9); border-left: 4px solid #991B1B;{% endif %}">
+                        <span>{{ message }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="{{ url_for('index') }}" class="logo">
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="CredScore Logo">
+                        CredScore
+                    </a>
+                    <p>Your Work. Verified. The future of student employment and skill validation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Platform</h4>
+                    <ul>
+                        <li><a href="{{ url_for('explore') }}">Browse Tasks</a></li>
+                        <li><a href="{{ url_for('how_it_works') }}">How It Works</a></li>
+                        <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="{{ url_for('about') }}">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Safety</a></li>
+                        <li><a href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CredScore. All rights reserved. Built for the future of work.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

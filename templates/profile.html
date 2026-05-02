@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Public Profile: {{ student.name }} | CredScore{% endblock %}
+
+{% block content %}
+<header class="page-header reveal text-center">
+    <div class="profile-avatar mb-1" style="width: 120px; height: 120px; margin-left: auto; margin-right: auto; font-size: 3rem; border: 4px solid var(--glass-border);">{{ student.name[:2].upper() }}</div>
+    <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">{{ student.name }}</h1>
+    <p class="list-item-meta" style="font-size: 1.1rem; margin-bottom: 1.5rem;">{{ student.college }}</p>
+    {% if student.student_profile.verified %}
+    <div class="badge" style="font-size: 1rem; padding: 0.5rem 1.5rem;">Verified CredScore Profile ✓</div>
+    {% endif %}
+</header>
+
+<section class="stats-row reveal" style="max-width: 900px; margin-left: auto; margin-right: auto; margin-bottom: 4rem;">
+    <div class="glass-card stat-item">
+        <h2 style="font-size: 2rem; color: var(--accent);">{{ student.student_profile.credscore }}</h2>
+        <p class="list-item-meta" style="text-transform: uppercase;">CredScore</p>
+    </div>
+    <div class="glass-card stat-item">
+        <h2 style="font-size: 2rem; color: var(--accent);">{{ student.student_profile.tasks_done }}</h2>
+        <p class="list-item-meta" style="text-transform: uppercase;">Tasks Done</p>
+    </div>
+    <div class="glass-card stat-item">
+        <h2 style="font-size: 2rem; color: var(--accent);">{{ "%.1f"|format(student.student_profile.avg_rating) }}</h2>
+        <p class="list-item-meta" style="text-transform: uppercase;">Avg Rating</p>
+    </div>
+    <div class="glass-card stat-item">
+        <h2 style="font-size: 2rem; color: var(--accent);">{{ "%.0f"|format(student.student_profile.on_time_rate * 100) }}%</h2>
+        <p class="list-item-meta" style="text-transform: uppercase;">On-Time Rate</p>
+    </div>
+</section>
+
+<section class="reveal" style="max-width: 800px; margin-left: auto; margin-right: auto; margin-bottom: 6rem;">
+    <div class="section-header">
+        <h2>Verified Work History</h2>
+        <p>Real-world projects completed by {{ student.name }}.</p>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {% for task in tasks %}
+        <div class="glass-card" style="padding: 2.5rem;">
+            <div class="dashboard-section-header">
+                <div>
+                    <h3 class="mb-1">{{ task.title }}</h3>
+                    <p class="list-item-meta">For {{ task.business.name }} • {{ task.category }}</p>
+                </div>
+                <div class="list-item-actions">
+                    {% set rating = namespace(value=None) %}
+                    {% for r in ratings %}
+                        {% if r.task_id == task.id and r.rater_id == task.business.id %}
+                            {% set rating.value = r.score %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if rating.value %}
+                    <div style="color: var(--warning); font-weight: 800; font-size: 1.25rem;">⭐ {{ rating.value }}.0</div>
+                    {% else %}
+                    <div class="list-item-meta">Verified ✓</div>
+                    {% endif %}
+                </div>
+            </div>
+            <p class="mt-1" style="font-size: 0.95rem; color: var(--text); opacity: 0.9;">{{ task.description }}</p>
+            <div class="mt-2">
+                {% for sub in task.submissions %}
+                    {% if sub.student_id == student.id and loop.last %}
+                        <a href="{{ sub.file_url }}" target="_blank" class="btn btn-outline" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">View Artifact</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center list-item-meta">No completed tasks yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

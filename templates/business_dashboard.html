@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}Business Dashboard | CredScore{% endblock %}
+
+{% block content %}
+<header class="page-header reveal">
+    <div class="glass-card welcome-card">
+        <div class="profile-main">
+            <div class="profile-avatar">{{ current_user.name[:2].upper() }}</div>
+            <div class="profile-info">
+                <h1>{{ current_user.name }}</h1>
+                <p>Business Partner • {{ tasks|length }} Tasks Total</p>
+            </div>
+        </div>
+        <div class="profile-actions">
+            <button class="btn btn-primary" onclick="openModal('postTaskModal')">Post New Task</button>
+        </div>
+    </div>
+</header>
+
+<section class="stats-row reveal">
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">Total Posted</p>
+        <h2>{{ tasks|length }}</h2>
+    </div>
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">Active Projects</p>
+        <h2>{{ tasks|length - completed_tasks|length }}</h2>
+    </div>
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">Completed</p>
+        <h2>{{ completed_tasks|length }}</h2>
+    </div>
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">Total Spend</p>
+        {% set total_spend = namespace(value=0) %}
+        {% for t in completed_tasks %}{% set total_spend.value = total_spend.value + t.budget %}{% endfor %}
+        <h2>₹{{ total_spend.value }}</h2>
+    </div>
+</section>
+
+<section class="reveal">
+    <div class="dashboard-section-header">
+        <h2>Active Task Management</h2>
+    </div>
+    
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {% for task in tasks %}
+            {% if task.status != 'completed' %}
+            <div class="glass-card" style="padding: 2rem;">
+                <div class="dashboard-section-header">
+                    <div>
+                        <h3 class="mb-1">{{ task.title }}</h3>
+                        <p class="list-item-meta">Budget: ₹{{ task.budget }} • Deadline: {{ task.deadline.strftime('%b %d') }}</p>
+                        <p class="list-item-info mt-1" style="color: var(--accent);">Status: {{ task.status|title }}</p>
+                    </div>
+                    <div class="profile-actions">
+                        <span class="badge" style="font-size: 1rem; padding: 0.5rem 1.5rem;">{{ task.applications|length }} Applicants</span>
+                        {% if task.status == 'in_progress' %}
+                            <button class="btn btn-success" style="padding: 0.4rem 1rem; font-size: 0.85rem;" onclick="completeTask({{ task.id }})">Mark Completed</button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if task.status == 'open' and task.applications|length > 0 %}
+                <div style="border-top: 1px solid var(--glass-border); padding-top: 1.5rem;">
+                    <h4 class="mb-2">Review Applicants</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+                        {% for app in task.applications %}
+                        {% if app.status == 'pending' %}
+                        <div class="glass-card text-center" style="padding: 1.5rem; background: rgba(255,255,255,0.02);">
+                            <div class="profile-avatar mb-1" style="width: 60px; height: 60px; margin-left: auto; margin-right: auto; border: 2px solid var(--accent);">{{ app.student.name[:2].upper() }}</div>
+                            <h4 class="mb-1">{{ app.student.name }}</h4>
+                            <p class="list-item-meta mb-2">{{ app.student.college }}</p>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.85rem;">
+                                <span>CredScore: <strong>{{ app.student.student_profile.credscore }}</strong></span>
+                                <span>Rating: <strong>{{ "%.1f"|format(app.student.student_profile.avg_rating) }}</strong></span>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+                                <a href="{{ url_for('profile', user_id=app.student.id) }}" target="_blank" class="btn btn-outline" style="padding: 0.4rem; font-size: 0.8rem;">Profile</a>
+                                <button class="btn btn-primary" style="padding: 0.4rem; font-size: 0.8rem;" onclick="promptHire(this, {{ task.id }}, {{ app.student.id }}, '{{ app.student.name }}')">Hire</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% if task.submissions|length > 0 %}
+                <div style="border-top: 1px solid var(--glass-border); padding-top: 1.5rem; margin-top: 2rem;">
+                    <h4 class="mb-1">Work Submissions</h4>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        {% for sub in task.submissions %}
+                        <div class="glass-card list-item-card" style="background: rgba(16, 185, 129, 0.05);">
+                            <div>
+                                <h5 class="mb-1">Revision {{ sub.revision_number }}</h5>
+                                <p class="list-item-meta">Submitted: {{ sub.submitted_at.strftime('%b %d, %H:%M') }}</p>
+                            </div>
+                            <a href="{{ sub.file_url }}" target="_blank" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.8rem;">View Work</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+        {% else %}
+            <p style="color: var(--muted);">You haven't posted any tasks yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="reveal mt-2">
+    <div class="dashboard-section-header">
+        <h2>Task History</h2>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {% for task in completed_tasks %}
+        <div class="glass-card list-item-card">
+            <div>
+                <h4 class="mb-1">{{ task.title }}</h4>
+                <p class="list-item-meta">₹{{ task.budget }} • Completed</p>
+            </div>
+            <div class="list-item-actions" style="color: var(--warning);">
+                {% set rating = namespace(value=None) %}
+                {% for r in task.ratings %}
+                    {% if r.rater_id == current_user.id and r.revealed %}
+                        {% set rating.value = r.score %}
+                    {% endif %}
+                {% endfor %}
+                
+                {% if rating.value %}
+                    ⭐ {{ rating.value }}.0
+                {% else %}
+                    {% set my_rating = namespace(done=False) %}
+                    {% for r in task.ratings %}
+                        {% if r.rater_id == current_user.id %}
+                            {% set my_rating.done = True %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if not my_rating.done %}
+                        {% set hired_student = namespace(obj=None) %}
+                        {% for app in task.applications if app.status == 'accepted' %}
+                            {% set hired_student.obj = app.student %}
+                        {% endfor %}
+                        
+                        <button class="btn btn-outline" style="padding: 0.3rem 0.8rem; font-size: 0.75rem;" onclick="openModal('rateModal{{ task.id }}')">Rate Student</button>
+                        
+                        <!-- Rate Modal -->
+                        <div id="rateModal{{ task.id }}" class="modal-overlay">
+                            <div class="glass-card modal-container">
+                                <span class="modal-close" onclick="closeModal('rateModal{{ task.id }}')">&times;</span>
+                                <h2 class="mb-2">Rate: {{ hired_student.obj.name }}</h2>
+                                <form onsubmit="submitRating(event, this)">
+                                    <input type="hidden" name="task_id" value="{{ task.id }}">
+                                    <input type="hidden" name="ratee_id" value="{{ hired_student.obj.id }}">
+                                    <div class="form-group">
+                                        <label>Score (1-5)</label>
+                                        <select name="score" class="form-control" required>
+                                            <option value="5">5 - Excellent work</option>
+                                            <option value="4">4 - Good</option>
+                                            <option value="3">3 - Average</option>
+                                            <option value="2">2 - Needs improvement</option>
+                                            <option value="1">1 - Very poor</option>
+                                        </select>
+                                    </div>
+                                    <p class="list-item-meta mb-2">Ratings are blind. The student won't see your rating until they rate you too.</p>
+                                    <button type="submit" class="btn btn-primary full-width">Submit Rating</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <span class="list-item-meta">Waiting for reciprocal rating</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <p style="color: var(--muted);">No completed tasks yet.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Post New Task Modal -->
+<div id="postTaskModal" class="modal-overlay">
+    <div class="glass-card modal-container">
+        <span class="modal-close" onclick="closeModal('postTaskModal')">&times;</span>
+        <h2 class="mb-2">Post New Task</h2>
+        <form id="postTaskForm" method="POST" action="{{ url_for('post_task') }}">
+            <div class="form-group">
+                <label>Task Title</label>
+                <input type="text" name="title" class="form-control" placeholder="e.g. Design a menu banner" required>
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" class="form-control" placeholder="Describe the task requirements..." required></textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div class="form-group">
+                    <label>Budget (₹)</label>
+                    <input type="number" name="budget" class="form-control" placeholder="400" required>
+                </div>
+                <div class="form-group">
+                    <label>Deadline</label>
+                    <input type="date" name="deadline" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select name="category" class="form-control" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Design">Design</option>
+                    <option value="Writing">Writing</option>
+                    <option value="Tech">Tech</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Video">Video</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary full-width mt-1">Submit Task</button>
+        </form>
+    </div>
+</div>
+
+<!-- Hire Student Confirmation Modal -->
+<div id="hireModal" class="modal-overlay">
+    <div class="glass-card modal-container" style="max-width: 450px; text-align: center;">
+        <h2 class="mb-1">Confirm Hire</h2>
+        <p id="hireModalText" class="mb-2 list-item-meta"></p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <button class="btn btn-outline" onclick="closeModal('hireModal')">Cancel</button>
+            <button id="confirmHireBtn" class="btn btn-primary">Confirm</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

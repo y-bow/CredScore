@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% block title %}Student Dashboard | CredScore{% endblock %}
+
+{% block content %}
+<header class="page-header reveal">
+    <div class="glass-card welcome-card">
+        <div class="profile-main">
+            <div class="profile-avatar">{{ current_user.name[:2].upper() }}</div>
+            <div class="profile-info">
+                <h1>{{ current_user.name }}</h1>
+                <p>{{ current_user.college }} • Student</p>
+            </div>
+        </div>
+        <div class="profile-actions">
+            {% if profile.verified %}
+            <div class="badge" style="padding: 0.5rem 1rem; font-size: 1rem;">Verified Profile ✓</div>
+            {% endif %}
+            <button id="shareProfileBtn" data-profile-id="{{ current_user.id }}" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.8rem;">Share Profile</button>
+        </div>
+    </div>
+</header>
+
+<section class="stats-row reveal">
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">CredScore</p>
+        <h2>{{ profile.credscore }}/100</h2>
+    </div>
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">Tasks Done</p>
+        <h2>{{ profile.tasks_done }}</h2>
+    </div>
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">On-Time Rate</p>
+        <h2>{{ "%.0f"|format(profile.on_time_rate * 100) }}%</h2>
+    </div>
+    <div class="glass-card stat-item">
+        <p class="list-item-meta">Avg. Rating</p>
+        <h2>{{ "%.1f"|format(profile.avg_rating) }}/5</h2>
+    </div>
+</section>
+
+<section class="reveal dashboard-grid">
+    <div class="tasks-column">
+        <div class="dashboard-section-header">
+            <h2>Active Tasks</h2>
+            <a href="{{ url_for('explore') }}" style="font-size: 0.85rem; color: var(--accent);">Browse more</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            {% for task in active_tasks %}
+            <div class="glass-card list-item-card">
+                <div class="list-item-info">
+                    <h4>{{ task.title }}</h4>
+                    <p>Posted by: {{ task.business.name }}</p>
+                </div>
+                <div class="list-item-actions">
+                    <div class="list-item-price">₹{{ task.budget }}</div>
+                    <div class="list-item-meta">Due: {{ task.deadline.strftime('%b %d') }}</div>
+                    <button class="btn btn-primary" style="padding: 0.3rem 0.8rem; font-size: 0.75rem; margin-top: 0.5rem;" onclick="openModal('submitWorkModal{{ task.id }}')">Submit Work</button>
+                </div>
+            </div>
+            
+            <!-- Submit Work Modal -->
+            <div id="submitWorkModal{{ task.id }}" class="modal-overlay">
+                <div class="glass-card modal-container">
+                    <span class="modal-close" onclick="closeModal('submitWorkModal{{ task.id }}')">&times;</span>
+                    <h2 class="mb-2">Submit Work: {{ task.title }}</h2>
+                    <form method="POST" action="{{ url_for('submit_work') }}">
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <div class="form-group">
+                            <label>File/Project URL</label>
+                            <input type="url" name="file_url" class="form-control" placeholder="e.g. Figma link, Google Drive link" required>
+                        </div>
+                        <p class="list-item-meta mb-2">Submitting multiple times will create new revisions.</p>
+                        <button type="submit" class="btn btn-primary full-width">Submit Work</button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <p style="color: var(--muted);">No active tasks currently.</p>
+            {% endfor %}
+        </div>
+
+        <div class="dashboard-section-header mt-2">
+            <h2>Completed Tasks</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            {% for task in completed_tasks %}
+            <div class="glass-card list-item-card">
+                <div class="list-item-info">
+                    <h4>{{ task.title }}</h4>
+                    <p>{{ task.business.name }} • ₹{{ task.budget }}</p>
+                </div>
+                <div class="list-item-actions" style="color: var(--warning);">
+                    {% set rating = namespace(value=None) %}
+                    {% for r in task.ratings %}
+                        {% if r.ratee_id == current_user.id and r.revealed %}
+                            {% set rating.value = r.score %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if rating.value %}
+                        ⭐ {{ rating.value }}.0
+                    {% else %}
+                        {% set my_rating = namespace(done=False) %}
+                        {% for r in task.ratings %}
+                            {% if r.rater_id == current_user.id %}
+                                {% set my_rating.done = True %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if not my_rating.done %}
+                            <button class="btn btn-outline" style="padding: 0.3rem 0.8rem; font-size: 0.75rem;" onclick="openModal('rateModal{{ task.id }}')">Rate Business</button>
+                            
+                            <!-- Rate Modal -->
+                            <div id="rateModal{{ task.id }}" class="modal-overlay">
+                                <div class="glass-card modal-container">
+                                    <span class="modal-close" onclick="closeModal('rateModal{{ task.id }}')">&times;</span>
+                                    <h2 class="mb-2">Rate Business: {{ task.business.name }}</h2>
+                                    <form onsubmit="submitRating(event, this)">
+                                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                                        <input type="hidden" name="ratee_id" value="{{ task.business.id }}">
+                                        <div class="form-group">
+                                            <label>Score (1-5)</label>
+                                            <select name="score" class="form-control" required>
+                                                <option value="5">5 - Excellent</option>
+                                                <option value="4">4 - Good</option>
+                                                <option value="3">3 - Average</option>
+                                                <option value="2">2 - Poor</option>
+                                                <option value="1">1 - Terrible</option>
+                                            </select>
+                                        </div>
+                                        <p class="list-item-meta mb-2">Ratings are blind. The business won't see your rating until they rate you too.</p>
+                                        <button type="submit" class="btn btn-primary full-width">Submit Rating</button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% else %}
+                            <span class="list-item-meta">Waiting for business to rate you</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <p style="color: var(--muted);">No completed tasks yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="analytics-column">
+        <div class="dashboard-section-header">
+            <h2>Performance</h2>
+        </div>
+        <div class="glass-card">
+            <p class="list-item-meta">Task Completion (3 Months)</p>
+            <div class="chart-container">
+                <div class="chart-bar" style="height: 40%;"><span class="chart-label">Feb</span></div>
+                <div class="chart-bar" style="height: 70%;"><span class="chart-label">Mar</span></div>
+                <div class="chart-bar" style="height: 100%;"><span class="chart-label">Apr</span></div>
+            </div>
+        </div>
+
+        <div class="glass-card mt-2">
+            <h3>Pro Tip 💡</h3>
+            <p class="list-item-info" style="margin-top: 0.5rem;">Completing tasks 24h before the deadline boosts your Punctuality Score by +5%.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

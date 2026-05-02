@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing | CredScore{% endblock %}
+
+{% block content %}
+<header class="page-header reveal">
+    <h1>The Cost of Credibility.</h1>
+    <p style="color: var(--muted);">High-stakes hiring requires high-fidelity data.</p>
+</header>
+
+<!-- Section 1: Free for Growth -->
+<section class="reveal" style="margin-bottom: 8rem;">
+    <div class="pricing-hero-card">
+        <div style="position: absolute; top: 1.5rem; left: 50%; transform: translateX(-50%); font-weight: 900; letter-spacing: 8px; opacity: 0.2; font-size: 1.2rem; color: var(--accent); text-transform: uppercase;">Community</div>
+        <h2 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1.5rem;">The Engine is Free.</h2>
+        <div class="pricing-badge-group">
+            <span class="badge pricing-badge">Students</span>
+            <span class="badge pricing-badge">Local Businesses</span>
+        </div>
+        <div class="price-display">FREE</div>
+        <p class="pricing-description">
+            No signup fees. No monthly costs. Build your reputation (Students) or post your tasks (Businesses) at zero cost. 
+            <br><strong style="color: var(--accent);">We only win when you do</strong> — a simple 10% platform fee on successful tasks.
+        </p>
+        <a href="{{ url_for('auth') }}" class="btn btn-primary" style="padding: 1.5rem 4rem; font-size: 1.25rem;">Start Building Now</a>
+    </div>
+</section>
+
+<!-- Section 2: Recruiter Intelligence -->
+<section class="reveal">
+    <div class="section-header">
+        <div style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 1rem;">For HR Teams & Companies</div>
+        <h2>Recruiter Intelligence</h2>
+        <p>Access the elite performance data of the next generation.</p>
+    </div>
+
+    <div class="recruiter-grid">
+        <!-- Basic Plan -->
+        <div class="glass-card plan-card">
+            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gold); letter-spacing: 2px; margin-bottom: 1rem; text-transform: uppercase;">The Starter Hunter</div>
+            <h3 style="font-size: 2.25rem; margin-bottom: 1.5rem;">Basic Intel</h3>
+            <div style="font-size: 3.5rem; font-weight: 800; margin-bottom: 2.5rem;">₹4,999<span style="font-size: 1rem; color: var(--muted);">/mo</span></div>
+            <ul class="plan-features">
+                <li class="plan-feature-item"><span>⚡</span> Access to verified local talent</li>
+                <li class="plan-feature-item"><span>⚡</span> Basic Anti-Gaming audit</li>
+                <li class="plan-feature-item"><span>⚡</span> Top 10% performance filters</li>
+                <li class="plan-feature-item"><span>⚡</span> Standard talent support</li>
+            </ul>
+            <a href="{{ url_for('auth') }}" class="btn btn-outline" style="border-color: var(--gold); color: var(--gold);">Get Verified Access</a>
+        </div>
+
+        <!-- Pro Plan -->
+        <div class="glass-card plan-card pro">
+            <div class="best-value-badge">MOST POPULAR</div>
+            <div style="font-size: 0.8rem; font-weight: 800; color: var(--gold); letter-spacing: 2px; margin-bottom: 1rem; text-transform: uppercase;">The Enterprise Power-User</div>
+            <h3 style="font-size: 2.25rem; margin-bottom: 1.5rem;">Enterprise Intel</h3>
+            <div style="font-size: 3.5rem; font-weight: 800; margin-bottom: 2.5rem;">₹14,999<span style="font-size: 1rem; color: var(--muted);">/mo</span></div>
+            <ul class="plan-features">
+                <li class="plan-feature-item"><span>⚡</span> Deep-Dive verified analytics</li>
+                <li class="plan-feature-item"><span>⚡</span> Full on-time delivery history</li>
+                <li class="plan-feature-item"><span>⚡</span> Unlimited student profile views</li>
+                <li class="plan-feature-item"><span>⚡</span> TRL-4 validated risk reports</li>
+                <li class="plan-feature-item"><span>⚡</span> Priority pipeline access</li>
+            </ul>
+            <a href="{{ url_for('auth') }}" class="btn btn-primary" style="background: var(--gold); color: #000; border: none;">Get Verified Access</a>
+        </div>
+    </div>
+
+    <!-- Psychology & Anchoring -->
+    <div class="reveal" style="text-align: center; margin-top: 6rem; font-size: 1.2rem;">
+        <p style="color: var(--muted);">
+            Why pay ₹14,999? <span style="color: var(--accent); text-decoration: underline; font-weight: 700; cursor: help;" title="Based on average hiring costs, training time, and loss of productivity from poor fit.">Because a single bad hire costs you ₹3,00,000.</span> Save the risk.
+        </p>
+    </div>
+</section>
+
+<div class="reveal" style="margin-top: 10rem; text-align: center; padding-top: 5rem; border-top: 1px solid var(--glass-border);">
+    <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Institutional Partnership</h2>
+    <p style="color: var(--muted); max-width: 700px; margin: 0 auto 3rem; font-size: 1.1rem;">We provide colleges with free institutional dashboards to track student career readiness and industry engagement. Empower your campus with data.</p>
+    <a href="{{ url_for('auth') }}" class="btn btn-outline" style="padding: 1rem 3rem;">Register Your College</a>
+</div>
+{% endblock %}

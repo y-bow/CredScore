@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}About Us | CredScore{% endblock %}
+
+{% block head %}
+<style>
+    .page-header {
+        padding: 10rem 0 4rem;
+        text-align: center;
+    }
+    .about-content {
+        max-width: 800px;
+        margin: 0 auto 6rem;
+    }
+    .about-content p {
+        font-size: 1.1rem;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="page-header reveal">
+    <h1>About CredScore.</h1>
+</header>
+<section class="about-content reveal">
+    <p>CredScore was built on a simple premise: college students do amazing work every day, but have no verifiable way to show it to employers.</p>
+    <p>We are bridging the gap between academia and industry by turning real-world tasks into a verified performance metric. By doing so, we help small businesses access affordable talent while giving students the platform to build their careers before they even graduate.</p>
+</section>
+{% endblock %}

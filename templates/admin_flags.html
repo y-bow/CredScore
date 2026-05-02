@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | Flags | CredScore{% endblock %}
+
+{% block head %}
+<style>
+    .admin-header {
+        padding: 10rem 0 3rem;
+    }
+    .flags-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 4rem;
+        background: var(--card);
+        border-radius: 1rem;
+        overflow: hidden;
+        border: 1px solid var(--glass-border);
+    }
+    .flags-table th, .flags-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--glass-border);
+    }
+    .flags-table th {
+        background: rgba(255, 255, 255, 0.05);
+        font-weight: 600;
+        color: var(--muted);
+    }
+    .flags-table tr:last-child td {
+        border-bottom: none;
+    }
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+    .status-pending { background: rgba(245, 158, 11, 0.1); color: #F59E0B; }
+    .status-reviewed { background: rgba(16, 185, 129, 0.1); color: #10B981; }
+</style>
+{% endblock %}
+
+{% block content %}
+<header class="admin-header reveal">
+    <h1>Anti-Gaming Flags</h1>
+    <p style="color: var(--muted);">Review suspicious platform activity automatically detected by the system.</p>
+</header>
+
+<section class="reveal">
+    <table class="flags-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>User Involved</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flag in flags %}
+            <tr>
+                <td style="color: var(--muted); font-size: 0.85rem;">{{ flag.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td style="font-weight: 600;">{{ flag.type }}</td>
+                <td>{{ flag.user.name if flag.user else 'System' }}</td>
+                <td style="font-size: 0.9rem; color: var(--muted);">{{ flag.reason }}</td>
+                <td>
+                    {% if flag.reviewed %}
+                    <span class="status-badge status-reviewed">Reviewed</span>
+                    {% else %}
+                    <span class="status-badge status-pending">Pending</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.85rem;">
+                        <input type="checkbox" {% if flag.reviewed %}checked{% endif %} onchange="toggleReview(this, {{ flag.id }})"> Mark Reviewed
+                    </label>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: var(--muted); padding: 3rem;">No flags detected. System is clean.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}
